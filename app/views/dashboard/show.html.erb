@@ -1,0 +1,43 @@
+<h3>Welcome to School <%= current_user.name %> !!!</h3>
+<div class='row'>
+  <div class='col-sm-12'>
+    <strong>School: <%= @school.name %></strong>
+  </div>
+  <div class='col-sm-12'>
+    <strong>Batches:</strong>
+  </div>
+  <div class='col-sm-12'>
+    <table class='table table-bordered'>
+      <thead>
+        <tr>
+          <th>Batch Name</th>
+          <th>School</th>
+          <th>Student count</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @batches.each do |batch| %>
+          <tr>
+            <td>
+              <% if format_status(batch, current_user.id) == 'approved' %>
+                <%= link_to batch.name, batch_path(batch.id) %>
+              <% else %>
+                <%= batch.name %>
+              <% end %>
+            </td>
+            <td><%= batch.school&.name %></td>
+            <td><%= batch.students.count %></td>
+            <td class="link <%= batch.name %>">
+              <% if batch.students.include? current_user  %>
+                <%= format_status(batch, current_user.id) %>
+              <% else %>
+                <%= link_to 'Join', join_batch_path(batch.id) %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

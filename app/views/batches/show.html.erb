@@ -1,0 +1,34 @@
+<h3>Welcome to School <%= current_user.name %> !!!</h3>
+<div class='row'>
+  <div class='col-sm-10'>
+    <strong>Batch:</strong>&nbsp;<%= @batch.name %>
+  </div>
+  <div class='col-sm-2'>
+    <%= link_to 'Back to Dashboard', dashboard_path %>
+  </div>
+</div>
+<div class='row'>
+  <div class='col-sm-12'>
+    <strong>Students:</strong>
+  </div>
+  <div class='col-sm-12'>
+    <table class='table table-bordered'>
+      <thead>
+        <tr>
+          <th>Student ID</th>
+          <th>Student Name</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @batch.students.each do |student| %>
+          <tr class="<%= student.id == current_user.id ? 'table-info' : '' %>">
+            <td><%= student.id %></td>
+            <td><%= student.name %></td>
+            <td><%= StudentBatch.get_status(@batch.id, student.id) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
